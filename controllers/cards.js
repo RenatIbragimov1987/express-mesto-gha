@@ -53,7 +53,7 @@ const likeCard = async (req, res) => {
   try {
     const like = await Card.findByIdAndUpdate(
       req.params.cardId,
-      { $addToSet: { likes: req.user._id } }, // добавить _id в массив, если его там нет
+      { $addToSet: { likes: req.user._id } },
       { new: true },
     );
     if (!like) {
@@ -76,7 +76,7 @@ const dislikeCard = async (req, res) => {
   try {
     const like = await Card.findByIdAndUpdate(
       req.params.cardId,
-      { $pull: { likes: req.user._id } }, // убрать _id из массива
+      { $pull: { likes: req.user._id } },
       { new: true },
     );
     if (!like) {
