@@ -5,13 +5,12 @@ const getUsers = async (req, res) => {
     const users = await User.find({});
     res.status(200).send(users);
   } catch (err) {
-    res.status(500).send(`Произошла ошибка: ${err.name} ${err.message}`);
+    res.status(500).send(`Произошла ошибка: ${err.message}`);
   }
 };
 
 const createUser = async (req, res) => {
   try {
-    console.log(ValidationError);
     const { name, about, avatar } = req.body;
     const user = new User({ name, about, avatar });
     res.status(201).send(await user.save());
@@ -22,7 +21,7 @@ const createUser = async (req, res) => {
       });
       return;
     }
-    res.status(500).send(`Произошла ошибка: ${err.name} ${err.message}`);
+    res.status(500).send(`Произошла ошибка: ${err.message}`);
   }
 };
 
@@ -37,11 +36,11 @@ const getUserByID = async (req, res) => {
   } catch (err) {
     if (err.name === "CastError") {
       res.status(400).send({
-        message: `Переданы некорректные данные id: ${err.name} - ${err.message}`,
+        message: `Переданы некорректные данные id: ${err.message}`,
       });
       return;
     }
-    res.status(500).send(`Произошла ошибка: ${err.name} ${err.message}`);
+    res.status(500).send(`Произошла ошибка: ${err.message}`);
   }
 };
 
@@ -61,7 +60,7 @@ const updateUser = async (req, res) => {
       });
       return;
     }
-    res.status(500).send(`Произошла ошибка: ${err.name} ${err.message}`);
+    res.status(500).send(`Произошла ошибка: ${err.message}`);
   }
 };
 
@@ -81,7 +80,7 @@ const updateAvatar = async (req, res) => {
       });
       return;
     }
-    res.status(500).send(`Произошла ошибка: ${err.name} ${err.message}`);
+    res.status(500).send(`Произошла ошибка: ${err.message}`);
   }
 };
 
