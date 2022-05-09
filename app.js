@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const express = require('express');
 const mongoose = require('mongoose');
 
@@ -25,13 +26,10 @@ app.use((req, res) => {
   res.status(404).send({ message: 'Запрошен несуществующий маршрут' });
 });
 
-async function connectServer() {
-  await mongoose.connect('mongodb://localhost:27017/mestodb', {
-    useNewUrlParser: true,
-    useUnifiedTopology: false,
-  });
-  app.listen(PORT, () => {
-    console.log(`Слушаем ${PORT} порт`);
-  });
-}
-connectServer();
+mongoose.connect('mongodb://localhost:27017/mestodb', {
+  useNewUrlParser: true,
+});
+
+app.listen(PORT, () => {
+  console.log(`Слушаем ${PORT} порт`);
+});
