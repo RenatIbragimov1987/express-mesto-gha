@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/RenatIbragimov1987/express-mesto-gha#readme",
   "dependencies": {
+    "dependencies": "^0.0.1",
     "express": "^4.18.1",
     "mongoose": "^6.3.2"
   },
