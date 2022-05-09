@@ -1,4 +1,4 @@
-const User = require("../models/user");
+const User = require('../models/user');
 
 const getUsers = async (req, res) => {
   try {
@@ -12,14 +12,13 @@ const getUsers = async (req, res) => {
 const getUserByID = async (req, res) => {
   try {
     const user = await User.findById(req.params.userId);
-    console.log(user);
     if (!user) {
-      res.status(404).send({ message: "Пользователь не найден" });
+      res.status(404).send({ message: 'Пользователь не найден' });
       return;
     }
     res.status(200).send(user);
   } catch (err) {
-    if (err.name === "CastError") {
+    if (err.name === 'CastError') {
       res.status(400).send({
         message: `Переданы некорректные данные id: ${err.message}`,
       });
@@ -35,7 +34,7 @@ const createUser = async (req, res) => {
     const user = new User({ name, about, avatar });
     res.status(201).send(await user.save());
   } catch (err) {
-    if (err.name === "ValidationError") {
+    if (err.name === 'ValidationError') {
       res.status(400).send({
         message: `Переданы некорректные данные создания пользователя: ${err.message}`,
       });
@@ -51,11 +50,11 @@ const updateUser = async (req, res) => {
     const user = await User.findByIdAndUpdate(
       req.user._id,
       { name, about },
-      { new: true, runValidators: true }
+      { new: true, runValidators: true },
     );
     res.status(200).send(user);
   } catch (err) {
-    if (err.name === "ValidationError") {
+    if (err.name === 'ValidationError') {
       res.status(400).send({
         message: `Переданы некорректные данные пользователя: ${err.message}`,
       });
@@ -71,11 +70,11 @@ const updateAvatar = async (req, res) => {
     const user = await User.findByIdAndUpdate(
       req.user._id,
       { avatar },
-      { new: true }
+      { new: true },
     );
     res.status(200).send(user);
   } catch (err) {
-    if (err.name === "ValidationError") {
+    if (err.name === 'ValidationError') {
       res.status(400).send({
         message: `Переданы некорректные данные аватара: ${err.message}`,
       });
