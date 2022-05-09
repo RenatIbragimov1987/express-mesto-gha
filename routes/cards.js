@@ -15,6 +15,4 @@ cards.delete('/cards/:cardId', deleteCard);
 cards.put('/cards/:cardId/likes', likeCard);
 cards.delete('/cards/:cardId/likes', dislikeCard);
 
-module.exports = {
-  cards,
-};
+module.exports = { cards };

@@ -1,4 +1,5 @@
 const express = require('express');
+
 const users = express.Router();
 const {
   getUsers,
@@ -14,4 +15,4 @@ users.post('/users', express.json(), createUser);
 users.patch('/users/me', express.json(), updateUser);
 users.patch('/users/me/avatar', express.json(), updateAvatar);
 
-module.exports = { users }; // экспортировали роутер
+module.exports = { users };
