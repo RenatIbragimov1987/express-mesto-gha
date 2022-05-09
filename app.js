@@ -5,23 +5,21 @@ const mongoose = require("mongoose");
 const users = require("./routes/users");
 const cards = require("./routes/cards");
 
-app.use("/", users);
-app.use("/", cards);
+app.use((req, res) => {
+  req.user = {
+    _id: "627835b5ee424cc54107062c",
+  };
+});
 
 app.get("/", (req, res) => {
   res.send(req.body);
 });
 
-app.use((req, res, next) => {
-  req.user = {
-    _id: "627835b5ee424cc54107062c",
-  };
-  next();
-});
+app.use("/", users);
+app.use("/", cards);
 
-app.use((req, res, next) => {
+app.use((req, res) => {
   res.status(404).send({ message: "Запрошен несуществующий маршрут" });
-  next();
 });
 
 (async function connectServer() {

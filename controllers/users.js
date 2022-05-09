@@ -9,22 +9,6 @@ const getUsers = async (req, res) => {
   }
 };
 
-const createUser = async (req, res) => {
-  try {
-    const { name, about, avatar } = req.body;
-    const user = new User({ name, about, avatar });
-    res.status(201).send(await user.save());
-  } catch (err) {
-    if (err.name === "ValidationError") {
-      res.status(400).send({
-        message: `Переданы некорректные данные создания пользователя: ${err.message}`,
-      });
-      return;
-    }
-    res.status(500).send({ message: `Произошла ошибка: ${err.message}` });
-  }
-};
-
 const getUserByID = async (req, res) => {
   try {
     const user = await User.findById(req.params.userId);
@@ -37,6 +21,22 @@ const getUserByID = async (req, res) => {
     if (err.name === "CastError") {
       res.status(400).send({
         message: `Переданы некорректные данные id: ${err.message}`,
+      });
+      return;
+    }
+    res.status(500).send({ message: `Произошла ошибка: ${err.message}` });
+  }
+};
+
+const createUser = async (req, res) => {
+  try {
+    const { name, about, avatar } = req.body;
+    const user = new User({ name, about, avatar });
+    res.status(201).send(await user.save());
+  } catch (err) {
+    if (err.name === "ValidationError") {
+      res.status(400).send({
+        message: `Переданы некорректные данные создания пользователя: ${err.message}`,
       });
       return;
     }
