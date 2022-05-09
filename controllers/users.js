@@ -21,7 +21,7 @@ const createUser = async (req, res) => {
       });
       return;
     }
-    res.status(500).send(`Произошла ошибка: ${err.message}`);
+    res.status(500).send({ message: `Произошла ошибка: ${err.message}` });
   }
 };
 
@@ -40,7 +40,7 @@ const getUserByID = async (req, res) => {
       });
       return;
     }
-    res.status(500).send(`Произошла ошибка: ${err.message}`);
+    res.status(500).send({ message: `Произошла ошибка: ${err.message}` });
   }
 };
 
@@ -60,7 +60,7 @@ const updateUser = async (req, res) => {
       });
       return;
     }
-    res.status(500).send(`Произошла ошибка: ${err.message}`);
+    res.status(500).send({ message: `Произошла ошибка: ${err.message}` });
   }
 };
 
@@ -80,7 +80,7 @@ const updateAvatar = async (req, res) => {
       });
       return;
     }
-    res.status(500).send(`Произошла ошибка: ${err.message}`);
+    res.status(500).send({ message: `Произошла ошибка: ${err.message}` });
   }
 };
 
