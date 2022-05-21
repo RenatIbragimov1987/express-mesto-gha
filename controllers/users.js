@@ -15,6 +15,40 @@ const getUsers = async (req, res, next) => {
   }
 };
 
+const getUserByID = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    if (!user) {
+      next(new NotFoundDataError('Пользователь не найден'));
+      return;
+    }
+    res.status(200).send(user);
+  } catch (err) {
+    if (err.name === 'CastError') {
+      next(new BadRequestError('Переданы некорректные данные id'));
+      return;
+    }
+    next(err);
+  }
+};
+
+const currentUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.userId);
+    if (!user) {
+      next(new NotFoundDataError('Пользователь не найден'));
+      return;
+    }
+    res.status(200).send(user);
+  } catch (err) {
+    if (err.name === 'CastError') {
+      next(new BadRequestError('Переданы некорректные данные id'));
+      return;
+    }
+    next(err);
+  }
+};
+
 const createUser = async (req, res, next) => {
   const {
     name,
@@ -69,40 +103,6 @@ const login = async (req, res, next) => {
     res.status(200).send({ token });
     return;
   } catch (err) {
-    next(err);
-  }
-};
-
-const getUserByID = async (req, res, next) => {
-  try {
-    const user = await User.findById(req.params.userId);
-    if (!user) {
-      next(new NotFoundDataError('Пользователь не найден'));
-      return;
-    }
-    res.status(200).send(user);
-  } catch (err) {
-    if (err.name === 'CastError') {
-      next(new BadRequestError('Переданы некорректные данные id'));
-      return;
-    }
-    next(err);
-  }
-};
-
-const currentUser = async (req, res, next) => {
-  try {
-    const user = await User.findById(req.userId);
-    if (!user) {
-      next(new NotFoundDataError('Пользователь не найден'));
-      return;
-    }
-    res.status(200).send(user);
-  } catch (err) {
-    if (err.name === 'CastError') {
-      next(new BadRequestError('Переданы некорректные данные id'));
-      return;
-    }
     next(err);
   }
 };
