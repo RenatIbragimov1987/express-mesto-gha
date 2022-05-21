@@ -23,8 +23,8 @@ app.use(express.json());
 
 app.post('/signup', celebrate({
   body: Joi.object().keys({
-    email: Joi.string().required(true).email(),
-    password: Joi.string().required(true).min(8),
+    email: Joi.string().required().email(),
+    password: Joi.string().required().min(8),
     name: Joi.string().min(2).max(30),
     about: Joi.string().min(2).max(30),
     avatar: Joi.string(),
@@ -33,8 +33,8 @@ app.post('/signup', celebrate({
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({
-    email: Joi.string().required(true).email(),
-    password: Joi.string().required(true),
+    email: Joi.string().required().email(),
+    password: Joi.string().required(),
   }),
 }), login);
 
@@ -49,10 +49,10 @@ app.use((req, res, next) => {
 
 app.use(errors());
 
-app.use((err, req, res, next) => {
-  res.status(500).send({ message: 'На сервере произошла ошибка' });
-  next();
-});
+// app.use((err, req, res, next) => {
+//   res.status(500).send({ message: 'На сервере произошла ошибка' });
+//   next();
+// });
 
 app.listen(PORT, () => {
   console.log(`Слушаем ${PORT} порт`);
