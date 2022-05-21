@@ -4,7 +4,7 @@ const cookieParser = require('cookie-parser');
 const { errors, celebrate, Joi } = require('celebrate');
 const express = require('express');
 const mongoose = require('mongoose');
-const isAuth = require('./middlewares/auth');
+const auth = require('./middlewares/auth');
 
 const { PORT = 3000 } = process.env;
 const { login, createUser } = require('./controllers/users');
@@ -40,7 +40,7 @@ async function main() {
     }),
   }), login);
 
-  app.use(isAuth);
+  app.use(auth);
 
   app.use('/', users);
   app.use('/', cards);
@@ -50,10 +50,6 @@ async function main() {
   });
 
   app.use(errors());
-
-  app.use(() => {
-    throw new NotFoundDataError('Пользователь не найден');
-  });
 
   app.use((err, req, res, next) => {
     res.status(500).send({ message: 'На сервере произошла ошибка' });
