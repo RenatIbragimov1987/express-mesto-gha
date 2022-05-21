@@ -31,4 +31,6 @@ users.patch('/users/me/avatar', celebrate({
   }),
 }), updateAvatar);
 
-module.exports = { users };
+module.exports = {
+  users,
+};

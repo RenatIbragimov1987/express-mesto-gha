@@ -6,6 +6,15 @@ const NotFoundDataError = require('../errors/NotFoundDataError');
 const { getToken } = require('../utils/jwt');
 const { DUBLICATE_MONGOOSE_ERROR_CODE, SALT_ROUNDS } = require('../constants/const');
 
+const getUsers = async (req, res, next) => {
+  try {
+    const users = await User.find({});
+    res.status(200).send(users);
+  } catch (err) {
+    next(err);
+  }
+};
+
 const createUser = async (req, res, next) => {
   const {
     name,
@@ -59,15 +68,6 @@ const login = async (req, res, next) => {
     });
     res.status(200).send({ token });
     return;
-  } catch (err) {
-    next(err);
-  }
-};
-
-const getUsers = async (req, res, next) => {
-  try {
-    const users = await User.find({});
-    res.status(200).send(users);
   } catch (err) {
     next(err);
   }

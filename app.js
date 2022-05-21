@@ -23,6 +23,13 @@ async function main() {
 
   app.use(express.json());
 
+  app.post('/signin', celebrate({
+    body: Joi.object().keys({
+      email: Joi.string().required().email(),
+      password: Joi.string().required(),
+    }),
+  }), login);
+
   app.post('/signup', celebrate({
     body: Joi.object().keys({
       email: Joi.string().required().email(),
@@ -32,13 +39,6 @@ async function main() {
       avatar: Joi.string().regex(/(http|https):\/\/(www)?\.?([A-Za-z0-9.-]+)\.([A-z]{2,})((?:\/[+~%/.\w-_]*)?\??(?:[-=&;%@.\w_]*)#?(?:[\w]*))?/),
     }),
   }), createUser);
-
-  app.post('/signin', celebrate({
-    body: Joi.object().keys({
-      email: Joi.string().required().email(),
-      password: Joi.string().required(),
-    }),
-  }), login);
 
   app.use(auth);
 
