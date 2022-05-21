@@ -40,7 +40,6 @@ async function main() {
   }), login);
 
   app.use(isAuth);
-
   app.use('/', users);
   app.use('/', cards);
 
@@ -49,6 +48,10 @@ async function main() {
   });
 
   app.use(errors());
+
+  app.use(() => {
+    throw new NotFoundDataError('Пользователь не найден');
+  });
 
   app.use((err, req, res, next) => {
     res.status(500).send({ message: 'На сервере произошла ошибка' });
