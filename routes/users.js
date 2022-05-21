@@ -10,7 +10,7 @@ const {
   updateAvatar,
 } = require('../controllers/users');
 
-users.get('/users', getUsers);
+users.get('/users', express.json(), getUsers);
 users.get('/users/me', currentUser);
 users.get('/users/:userId', celebrate({
   params: Joi.object().keys({
