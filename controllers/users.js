@@ -3,7 +3,7 @@ const User = require('../models/user');
 const BadRequestError = require('../errors/BadRequestError');
 const ConflictDataError = require('../errors/ConflictDataError');
 const NotFoundDataError = require('../errors/NotFoundDataError');
-const UnauthorizedError = require('../errors/UnauthorizedError');
+// const UnauthorizedError = require('../errors/UnauthorizedError');
 const { getToken } = require('../utils/jwt');
 const { DUBLICATE_MONGOOSE_ERROR_CODE, SALT_ROUNDS } = require('../constants/const');
 
@@ -21,14 +21,16 @@ const createUser = async (req, res, next) => {
   }
   try {
     const hash = await bcrypt.hash(password, SALT_ROUNDS);
-    const user = await User.create({
+    const user = new User({
       name,
       about,
       avatar,
       email,
       password: hash,
     });
-    res.status(201).send({ data: user });
+    const savedUser = await user.save();
+    const { password: removedPassword, ...result } = savedUser.toObject();
+    res.status(201).send(result);
   } catch (err) {
     if (err.name === 'ValidationError') {
       next(new BadRequestError('Переданы некорректные данные создания пользователя'));
@@ -49,7 +51,7 @@ const login = async (req, res, next) => {
       next(new BadRequestError('Переданы некорректные данные логина или пароля'));
       return;
     }
-    const admin = await User.findOne({ email, password });
+    const admin = await User.findUserByCredentials(email, password);
     const token = await getToken(admin._id);
     res.cookie('jwt', token, {
       maxAge: 3600000 * 24 * 7,
@@ -59,10 +61,6 @@ const login = async (req, res, next) => {
     res.status(200).send({ token });
     return;
   } catch (err) {
-    if (err.name === 'ValidationError') {
-      next(new UnauthorizedError('Переданы некорректные данные логина или пароля'));
-      return;
-    }
     next(err);
   }
 };
