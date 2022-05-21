@@ -3,7 +3,7 @@ const User = require('../models/user');
 const BadRequestError = require('../errors/BadRequestError');
 const ConflictDataError = require('../errors/ConflictDataError');
 const NotFoundDataError = require('../errors/NotFoundDataError');
-// const UnauthorizedError = require('../errors/UnauthorizedError');
+const UnauthorizedError = require('../errors/UnauthorizedError');
 const { getToken } = require('../utils/jwt');
 const { DUBLICATE_MONGOOSE_ERROR_CODE, SALT_ROUNDS } = require('../constants/const');
 
@@ -70,6 +70,10 @@ const getUsers = async (req, res, next) => {
     const users = await User.find({});
     res.status(200).send(users);
   } catch (err) {
+    if (!await User.find({})) {
+      next(new UnauthorizedError('Пользователи не найдены'));
+      return;
+    }
     next(err);
   }
 };
