@@ -4,7 +4,7 @@ const UnauthorizedError = require('../errors/UnauthorizedError');
 
 const JWT_SECRET = 'IAMSECRETPASSWORD';
 
-module.exports = async (req, res, next) => {
+const isAuth = async (req, res, next) => {
   const token = req.cookies.jwt;
   let payload;
   try {
@@ -17,3 +17,5 @@ module.exports = async (req, res, next) => {
   req.user = payload;
   next();
 };
+
+module.exports = isAuth;

@@ -4,7 +4,7 @@ const cookieParser = require('cookie-parser');
 const { errors, celebrate, Joi } = require('celebrate');
 const express = require('express');
 const mongoose = require('mongoose');
-const auth = require('./middlewares/auth');
+const isAuth = require('./middlewares/auth');
 
 const { PORT = 3000 } = process.env;
 const { login, createUser } = require('./controllers/users');
@@ -40,7 +40,7 @@ async function main() {
     }),
   }), createUser);
 
-  app.use(auth);
+  app.use(isAuth);
 
   app.use('/', users);
   app.use('/', cards);
