@@ -111,7 +111,7 @@ const updateUser = async (req, res, next) => {
   try {
     const { name, about } = req.body;
     const user = await User.findByIdAndUpdate(
-      req.user._id,
+      req.userId,
       { name, about },
       { new: true, runValidators: true },
     );
@@ -129,7 +129,7 @@ const updateAvatar = async (req, res, next) => {
   const { avatar } = req.body;
   try {
     const user = await User.findByIdAndUpdate(
-      req.user._id,
+      req.userId,
       { avatar },
       { new: true, runValidators: true },
     );
