@@ -52,7 +52,8 @@ async function main() {
   app.use(errors());
 
   app.use((err, req, res, next) => {
-    res.status(500).send({ message: 'На сервере произошла ошибка' });
+    const { statusCode = 500, message } = err;
+    res.status(statusCode).send({ message: statusCode === 500 ? 'На сервере произошла ошибка' : message });
     next();
   });
 
