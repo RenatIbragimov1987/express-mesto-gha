@@ -14,7 +14,7 @@ const getCard = async (req, res, next) => {
 
 const createCard = async (req, res, next) => {
   try {
-    const owner = req.user._id;
+    const owner = req.userId;
     const { name, link } = req.body;
     const card = new Card({ name, link, owner });
     res.status(201).send(await card.save());
@@ -55,7 +55,7 @@ const likeCard = async (req, res, next) => {
   try {
     const like = await Card.findByIdAndUpdate(
       req.params.cardId,
-      { $addToSet: { likes: req.user._id } },
+      { $addToSet: { likes: req.userId } },
       { new: true },
     );
     if (!like) {
@@ -76,7 +76,7 @@ const dislikeCard = async (req, res, next) => {
   try {
     const like = await Card.findByIdAndUpdate(
       req.params.cardId,
-      { $pull: { likes: req.user._id } },
+      { $pull: { likes: req.userId } },
       { new: true },
     );
     if (!like) {
