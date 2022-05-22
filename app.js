@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-const helmet = require('helmet');
+// const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
 const { errors, celebrate, Joi } = require('celebrate');
 const express = require('express');
@@ -13,12 +13,13 @@ const { cards } = require('./routes/cards');
 const NotFoundDataError = require('./errors/NotFoundDataError');
 
 const app = express();
+
 async function main() {
   await mongoose.connect('mongodb://localhost:27017/mestodb', {
     useNewUrlParser: true,
     useUnifiedTopology: false,
   });
-  app.use(helmet());
+  // app.use(helmet());
   app.use(cookieParser());
 
   app.use(express.json());
